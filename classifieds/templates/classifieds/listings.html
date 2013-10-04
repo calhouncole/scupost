@@ -1,0 +1,44 @@
+<html>
+<button type="button"><a href="/classifieds/post">Post Something</a></button>
+
+<body>
+<title>Classifieds</title>
+
+<br>{{id}}
+
+{% if For_Sale %}
+<h2>For Sale</h2>
+{% for each in For_Sale %}
+<li><a href="/classifieds/{{ each }}/">{{ each }}</a></li>
+{% endfor %}
+{% endif %}
+
+{% if personals %}
+<h2>Personals</h2>
+{% for each in personals %}
+<li><a href="/classifieds/{{ each }}/">{{ each }}</a></li>
+{% endfor %}
+{% endif %}
+
+{% if community %}
+<h2>Community</h2>
+{% for each in community %}
+<li><a href="/classifieds/{{ each }}/">{{ each }}</a></li>
+{% endfor %}
+{% endif %}
+
+{% if housing %}
+<h2>Housing</h2>
+{% for each in housing %}
+<li><a href="/classifieds/{{ each }}/">{{ each }}</a></li>
+{% endfor %}
+{% endif %}
+
+{% if on_campus_jobs %}
+<h2>On Campus Jobs</h2>
+{% for each in on_campus_jobs %}
+<li><a href="/classifieds/{{ each }}/">{{ each }}</a></li>
+{% endfor %}
+{% endif %}
+</body>
+</html>

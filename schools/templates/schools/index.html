@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <title>Campus Craigslist</title>
+  </head>
+
+  <body>
+    <div style = "text-align: center;">
+    <h2>Enter your School E-mail:</h2>
+    <form method  = "post">
+      {% csrf_token %}
+      <textarea name="user_input">{{now}}</textarea>
+      <br>
+      <input type="submit">
+    </form>
+  </div>
+  </body>
+  </html>

@@ -1,0 +1,9 @@
+<html>
+{% if output %}
+{% for each in output %}
+<li><a href="/classifieds/{{ each.id }}/">{{ each }}</a></li>
+{% endfor %}
+{% else %}
+Oops! There are no listings for this category at this time. Please check again later!
+{% endif %}
+</html>

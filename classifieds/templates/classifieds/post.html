@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <title>Post -- Campus Craigslist</title>
+  </head>
+
+  <body>
+    <div style = "text-align: center;">
+    <h2>Title:</h2>
+    <form method  = "post">
+      {% csrf_token %}
+      <textarea name="title"></textarea>
+      <br>
+      <input type="submit">
+    </form>
+  </div>
+
+      <form method  = "post">
+      {% csrf_token %}
+      <textarea name="description"></textarea>
+      <br>
+      <input type="submit">
+    </form>
+  </div>
+
+  </body>
+  </html>
