@@ -53,7 +53,7 @@ def specific(request, specific_id):
 	else:
 		return HttpResponse("Sorry! The posting you are looking for does not exist.")
 
-
+#RENDERS THE POSTING PAGE, GETS THE USERS INFO AND INPUTS IT TO THE DATABASE
 class Post(View):
 	def get(self, request):
 		context = {'total_vars': total_vars}
