@@ -2,6 +2,7 @@ from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
 from django.views.generic.base import View
 from classifieds.models import Classifieds
 from users.models import Users
+from schools.models import Schools
 from django.shortcuts import render
 from django.template import RequestContext, loader
 
@@ -16,6 +17,10 @@ housing = ["Apts/Housing", "Roommates", "Rooms/Shared", "Sublets/Temporary", "Wa
 on_campus_jobs = ["Admin", "General", "Research", "Tutoring"] 
 community = ["Activities", "Classes", "General", "Lost+Found", "Rideshare", "Volunteers"]
 
+total_vars = ["", "Barter", "Bikes", "Computer", "Electronics", "Free", "Furniture", "Games", "Household", "Media", "Music", "Sporting", 
+"Textbooks", "Tickets", "Tools", "Wanted", 'Friendship', 'Romance', "Apts/Housing", "Roommates", "Rooms/Shared", "Sublets/Temporary",
+"Admin", "General", "Research", "Tutoring", "Activities", "Classes", "Lost+Found", "Rideshare", "Volunteers"]
+total_vars = sorted(total_vars)
 
 #THE FUNCTION: LISTINGS, RENDERS THE LISTINGS TEMPLATE, PASSISNG IN THE CATEGORIES AS VARIABLES
 def listings(request):
@@ -49,5 +54,16 @@ def specific(request, specific_id):
 		return HttpResponse("Sorry! The posting you are looking for does not exist.")
 
 
-def post(request):
-	return HttpResponse('hello')
+class Post(View):
+	def get(self, request):
+		context = {'total_vars': total_vars}
+		return render(request, 'classifieds/post.html', context)
+	def post(self, request):
+		title = request.POST.get('title')
+		price = request.POST.get('price')
+		description = request.POST.get('description')
+		category = request.POST.get('category')
+		new_classified = Classifieds(title = title, category = category, description = description,
+				user = Users.objects.get(pk = request.session['id']), school = Schools.objects.get(pk=1))
+		new_classified.save()
+		return HttpResponseRedirect('/classifieds/')

@@ -16,6 +16,10 @@ class Intro(View):
 	def get(self, request):
 	    return render(request, 'schools/intro.html')
 
+#THE POST FUNCTION TAKES THE HTML OBJECTS SUBMITTED IN INTRO.HTML, CHECKS TO SEE IF USER IS IN DATABASE. IF SO, IT SETS THE SESSION
+#ID AND REDIRECTS THE USER TO THE CLASSIFIEDS PAGE
+# IF THE USER DOES NOT EXIST, IT ADDS THEM TO THE DATABASE AND THEN REDIRECTS TO THE CLASSIFIEDS PAGE
+
 	def post(self, request):
 		email = request.POST.get("email")
 		password = request.POST.get("password")
@@ -40,10 +44,6 @@ class Intro(View):
 				return HttpResponse("Sorry, your passwords do not match")
 		else:
 			return HttpResponse("Sorry, that school is not in our database.")
-			#return HttpResponseRedirect('/classifieds', context)
-		
-			#new_usr = Users(name = name, email = email, school = Schools.objects.get( pk = 1))
-			#new_usr.save()
-			#return HttpResponse(new_usr.name)
+
 			
 		

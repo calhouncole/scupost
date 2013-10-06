@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-        <title>Post -- Campus Craigslist</title>
+        <title>Campus Craigslist</title>
   </head>
 
   <body>
-    <div style = "text-align: center;">
-    <h2>Title:</h2>
-    <form method  = "post">
-      {% csrf_token %}
-      <textarea name="title"></textarea>
-      <br>
-      <input type="submit">
-    </form>
-  </div>
+<form method = "post">
+  {% csrf_token %}
+      Title: <input type="text" name="title"><br>
+      Price: <input type="text" name="price"><br>
+      {% if total_vars %}
+       Category:<select name="category">
+              {% for each in total_vars %}
+              <option value = {{each}}>{{each}}</option>
+              {% endfor %}
+        </select><br>
+            {% endif %}
+      Description: <textarea name="description"></textarea><br>
+    <input type="submit">
+</form>
 
-      <form method  = "post">
-      {% csrf_token %}
-      <textarea name="description"></textarea>
-      <br>
-      <input type="submit">
-    </form>
-  </div>
 
+
+  </div>
   </body>
   </html>
