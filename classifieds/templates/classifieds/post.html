@@ -5,8 +5,9 @@
   </head>
 
   <body>
-<form method = "post">
-  {% csrf_token %}
+
+<form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
       Title: <input type="text" name="title"><br>
       Price: <input type="text" name="price"><br>
       {% if total_vars %}
@@ -17,8 +18,14 @@
         </select><br>
             {% endif %}
       Description: <textarea name="description"></textarea><br>
-    <input type="submit">
-</form>
+      <p>{{ form.non_field_errors }}</p>
+      <p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
+      <p>
+        {{ form.docfile.errors }}
+        {{ form.docfile }}
+      </p>
+      <p><input type="submit" value="Upload" /></p>
+    </form>
 
 
 

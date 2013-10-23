@@ -3,8 +3,16 @@ from django.views.generic.base import View
 from classifieds.models import Classifieds
 from users.models import Users
 from schools.models import Schools
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.template import RequestContext, loader
+from django.contrib.formtools.wizard.views import SessionWizardView
+from django.core.files.storage import FileSystemStorage
+from django.conf import settings
+import os
+from django.core.urlresolvers import reverse
+from classifieds.models import Document
+from classifieds.forms import DocumentForm
+
 
 
 
@@ -21,6 +29,7 @@ total_vars = ["", "Barter", "Bikes", "Computer", "Electronics", "Free", "Furnitu
 "Textbooks", "Tickets", "Tools", "Wanted", 'Friendship', 'Romance', "Apts/Housing", "Roommates", "Rooms/Shared", "Sublets/Temporary",
 "Admin", "General", "Research", "Tutoring", "Activities", "Classes", "Lost+Found", "Rideshare", "Volunteers"]
 total_vars = sorted(total_vars)
+
 
 #THE FUNCTION: LISTINGS, RENDERS THE LISTINGS TEMPLATE, PASSISNG IN THE CATEGORIES AS VARIABLES
 def listings(request):
@@ -47,23 +56,33 @@ def specific(request, specific_id):
 		spec_user = object_database.user.email
 		spec_title = object_database.title
 		spec_description = object_database.description
-		context = {'spec_title': spec_title, 'spec_description': spec_description, 'spec_user': spec_user}
+		spec_photo = object_database.photos
+		context = {'spec_photo': spec_photo, 'spec_title': spec_title, 'spec_description': spec_description, 'spec_user': spec_user}
 		return render(request, 'classifieds/specific.html', context)
 		
 	else:
 		return HttpResponse("Sorry! The posting you are looking for does not exist.")
 
-#RENDERS THE POSTING PAGE, GETS THE USERS INFO AND INPUTS IT TO THE DATABASE
-class Post(View):
-	def get(self, request):
-		context = {'total_vars': total_vars}
-		return render(request, 'classifieds/post.html', context)
-	def post(self, request):
-		title = request.POST.get('title')
-		price = request.POST.get('price')
-		description = request.POST.get('description')
-		category = request.POST.get('category')
-		new_classified = Classifieds(title = title, category = category, description = description,
-				user = Users.objects.get(pk = request.session['id']), school = Schools.objects.get(pk=1))
-		new_classified.save()
-		return HttpResponseRedirect('/classifieds/')
+def post(request):
+    # Handle file upload
+    if request.method == 'POST':
+        form = DocumentForm(request.POST, request.FILES)
+        if form.is_valid():
+            new_classified = Classifieds(photos = request.FILES['docfile'], title = request.POST['title'], category = request.POST.get('category'), 
+            				description = request.POST['description'], user = Users.objects.get(pk = request.session['id']), school = Schools.objects.get(pk=1))
+            new_classified.save()
+
+            # Redirect to the document list after POST
+            return HttpResponseRedirect('/classifieds')
+    else:
+        form = DocumentForm() # A empty, unbound form
+
+
+
+
+    # Render list page with the documents and the form
+    return render_to_response(
+        'classifieds/list.html',
+        {'form': form, 'total_vars': total_vars},
+        context_instance=RequestContext(request)
+)

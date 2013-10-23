@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Minimal Django File Upload Example</title>	
+	</head>
+
+	<body>
+
+
+		<!-- Upload form. Note enctype attribute! -->
+		<form method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+			Title: {{form.title}}<br>
+			Price: {{form.price}}<br>
+			{% if total_vars %}
+       Category:<select name="category">
+              {% for each in total_vars %}
+              <option value = {{each}}>{{each}}</option>
+              {% endfor %}
+        </select><br>
+            {% endif %}
+			Description: {{form.description}}<br>
+			<p>{{ form.non_field_errors }}</p>
+			<p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
+			<p>
+				{{ form.docfile.errors }}
+				{{ form.docfile }}
+			</p>
+			<p><input type="submit" value="Upload" /></p>
+		</form>
+		
+	</body>
+
+</html> 
