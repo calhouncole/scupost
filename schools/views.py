@@ -26,16 +26,16 @@ class Intro(View):
 		password2 = request.POST.get("password2")
 		name = request.POST.get("name")
 		count = email.find('@') 
-		email = email[count+1 : ]
+		temp_email = email[count+1 : ]
 		user_database = Users.objects.filter(name = name).exists()
-		if email == 'scu.edu':
+		if temp_email == 'scu.edu':
 			if password == password2:
 				if user_database:
 					user_database = Users.objects.get(name = name)
 					request.session['id'] = user_database.id
 					return HttpResponseRedirect('/classifieds')
 				else:
-					new_usr = Users(name = name, email = email, school = Schools.objects.get(pk=1))
+					new_usr = Users(name = name, email = email, school = Schools.objects.get(pk=1), password = password)
 					new_usr.save()
 					request.session['id'] = new_usr.id
 					return HttpResponseRedirect('/classifieds')

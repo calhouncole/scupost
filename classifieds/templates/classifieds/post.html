@@ -1,34 +1,53 @@
 <!DOCTYPE html>
 <html>
-<head>
-        <title>Campus Craigslist</title>
-  </head>
+	<head>
+		<meta charset="utf-8">
+		<title>SCUpost</title>	
+	</head>
 
-  <body>
+	<body>
 
-<form method="post" enctype="multipart/form-data">
-      {% csrf_token %}
-      Title: <input type="text" name="title"><br>
-      Price: <input type="text" name="price"><br>
-      {% if total_vars %}
+
+		<!-- Upload form. Note enctype attribute! -->
+		<form method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+			Title: {{form.title}}<br>
+			Price: {{form.price}}<br>
+			{% if total_vars %}
        Category:<select name="category">
               {% for each in total_vars %}
               <option value = {{each}}>{{each}}</option>
               {% endfor %}
         </select><br>
             {% endif %}
-      Description: <textarea name="description"></textarea><br>
-      <p>{{ form.non_field_errors }}</p>
-      <p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
-      <p>
-        {{ form.docfile.errors }}
-        {{ form.docfile }}
-      </p>
-      <p><input type="submit" value="Upload" /></p>
-    </form>
+			Description: {{form.description}}<br>
+			<p>{{ form.non_field_errors }}</p>
+			<p>{{ form.imagefile.label_tag }} {{ form.imagefile.help_text }}</p>
+			<p>
+				{{ form.imagefile.errors }}
+				{{ form.imagefile }}
+			</p>
+			<p>{{ form.non_field_errors }}</p>
+			<p>{{ form.imagefile2.label_tag }} {{ form.imagefile2.help_text }}</p>
+			<p>
+				{{ form.imagefile2.errors }}
+				{{ form.imagefile2 }}
+			</p>
+			<p>{{ form.non_field_errors }}</p>
+			<p>{{ form.imagefile3.label_tag }} {{ form.imagefile3.help_text }}</p>
+			<p>
+				{{ form.imagefile3.errors }}
+				{{ form.imagefile3 }}
+			</p>
+			<p>{{ form.non_field_errors }}</p>
+			<p>{{ form.imagefile4.label_tag }} {{ form.imagefile4.help_text }}</p>
+			<p>
+				{{ form.imagefile4.errors }}
+				{{ form.imagefile4 }}
+			</p>
+			<p><input type="submit" value="Upload" /></p>
+		</form>
+		
+	</body>
 
-
-
-  </div>
-  </body>
-  </html>
+</html> 

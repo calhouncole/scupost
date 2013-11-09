@@ -1,8 +1,28 @@
+{% load static %}
+
+   
+    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}style.css">
+
 <html>
 <button type="button"><a href="/classifieds/post">Post Something</a></button>
+ <title> SCUpost</title>
+
+<h5> SCUpost</h5>
+<!-- The Below Creates a Search Bar....the action tab sends it to classifieds/search/ where it is handled by the view "search" -->
+<h2> Search </h2>
+
+<form method = "post" action = "/classifieds/search/">
+	{% csrf_token %}
+	<input type="text" id = "search" name = "search" />
+	<input type = "submit" value = "search"/>
+</form>
+
+<ul id = "search-results"></ul>
+
 
 <body>
 <title>Classifieds</title>
+
 
 <br>{{id}}
 
@@ -37,6 +57,13 @@
 {% if on_campus_jobs %}
 <h2>On Campus Jobs</h2>
 {% for each in on_campus_jobs %}
+<li><a href="/classifieds/{{ each }}/">{{ each }}</a></li>
+{% endfor %}
+{% endif %}
+
+{% if Wanted %}
+<h2>Wanted</h2>
+{% for each in Wanted %}
 <li><a href="/classifieds/{{ each }}/">{{ each }}</a></li>
 {% endfor %}
 {% endif %}

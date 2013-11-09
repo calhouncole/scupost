@@ -10,8 +10,31 @@ class DocumentForm(forms.Form):
 	price = forms.IntegerField()
 	description = forms.CharField(max_length=1000)
 
-	docfile = forms.FileField(
-	    label='Select a file',
-	    help_text='max. 42 megabytes'
+	imagefile = forms.ImageField(
+	    label='Select an image',
+	    help_text='max. 42 megabytes',
+	    required = False
+	    
+	)
+
+	imagefile2 = forms.ImageField(
+	    label='Select an image',
+	    help_text='max. 42 megabytes',
+	    required = False
+	    
+	)
+
+	imagefile3 = forms.ImageField(
+	    label='Select an image',
+	    help_text='max. 42 megabytes',
+	    required = False
+	    
+	)
+
+	imagefile4 = forms.ImageField(
+	    label='Select an image',
+	    help_text='max. 42 megabytes',
+	    required = False
+	    
 	)
 

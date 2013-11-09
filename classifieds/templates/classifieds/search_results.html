@@ -1,0 +1,14 @@
+<html>
+
+{% if search_results.count > 0 %}
+
+{% for each in search_results %}
+<a href="/classifieds/{{ each.id }}/">{{ each.title }}</a><br>
+{% endfor %}
+
+{% else %}
+
+<li>None to show!</li>
+
+{% endif %}
+</html>

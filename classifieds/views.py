@@ -1,5 +1,5 @@
 from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
-from django.views.generic.base import View
+from django.views.generic import View
 from classifieds.models import Classifieds
 from users.models import Users
 from schools.models import Schools
@@ -10,8 +10,9 @@ from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 import os
 from django.core.urlresolvers import reverse
-from classifieds.models import Document
 from classifieds.forms import DocumentForm
+from django.core.mail import send_mail
+from django.utils import timezone
 
 
 
@@ -19,22 +20,27 @@ from classifieds.forms import DocumentForm
 
 
 #THE BELOW VARIABLES ARE ALL THE CATEGORIES THAT WILL BE DISPLAYED IN THE LISTINGS
-For_Sale = ["Barter", "Bikes", "Computer", "Electronics", "Free", "Furniture", "Games", "General", "Household", "Media", "Music", "Sporting", "Textbooks", "Tickets", "Tools", "Wanted"]
+For_Sale = ["Barter", "Bikes", "Computer", "Electronics", "Free", "Furniture", "Games", "General", "Household", "Media", 
+			"Music", "Sporting", "Textbooks", "Tickets", "Tools"]
 personals = ['Friendship', 'General', 'Romance']
-housing = ["Apts/Housing", "Roommates", "Rooms/Shared", "Sublets/Temporary", "Wanted"]
+housing = ["Apts/Housing", "Roommates", "Rooms/Shared", "Sublets/Temporary"]
 on_campus_jobs = ["Admin", "General", "Research", "Tutoring"] 
-community = ["Activities", "Classes", "General", "Lost+Found", "Rideshare", "Volunteers"]
-
-total_vars = ["", "Barter", "Bikes", "Computer", "Electronics", "Free", "Furniture", "Games", "Household", "Media", "Music", "Sporting", 
-"Textbooks", "Tickets", "Tools", "Wanted", 'Friendship', 'Romance', "Apts/Housing", "Roommates", "Rooms/Shared", "Sublets/Temporary",
-"Admin", "General", "Research", "Tutoring", "Activities", "Classes", "Lost+Found", "Rideshare", "Volunteers"]
+community = ["Activities", "Classes", "General", "Lost+Found", "Parties", "Rideshare", "Volunteers"]
+Wanted = ["Wanted"]
+total_vars = ["", "Barter", "Bikes", "Computer", "Electronics", "Free", "Furniture", "Games", "Household", "Media", "Music", 
+				"Sporting", 
+				"Textbooks", "Tickets", "Tools", "Wanted", 'Friendship', 'Romance', "Apts/Housing", "Roommates", 
+				"Rooms/Shared", "Sublets/Temporary",
+				"Admin", "General", "Research", "Tutoring", "Activities", "Classes", "Lost+Found", "Rideshare", 
+				"Volunteers", "Parties"]
 total_vars = sorted(total_vars)
 
 
 #THE FUNCTION: LISTINGS, RENDERS THE LISTINGS TEMPLATE, PASSISNG IN THE CATEGORIES AS VARIABLES
 def listings(request):
 	usr_id = request.session['id']
-	context = {'For_Sale' : For_Sale, 'personals' : personals, 'housing' : housing, 'on_campus_jobs' : on_campus_jobs, 'community' : community, 'id' : usr_id}
+	context = {'Wanted': Wanted, 'For_Sale' : For_Sale, 'personals' : personals, 'housing' : housing, 
+				'on_campus_jobs' : on_campus_jobs, 'community' : community, 'id' : usr_id}
 	return render(request, 'classifieds/listings.html', context)
 
 #THIS FUNCTION TAKES THE CATEGORY VARIABLE AND RENDERS ALL OF THOSE IN THE DATABSE ASSOCIATED WITH THAT CATEGORY	
@@ -45,19 +51,32 @@ def detail(request, types):
 
 	for each_listing in latest_list:
 		output.append(each_listing)
+		output.reverse()
 
 
 	context = {'output': output}
 	return render(request, 'classifieds/detail.html', context)
-
+"""
+THE FOLLOWING IS CALLED WHEN A SPECIFIC CLASSIFIED IS CLICKED
+IT SEARCHES THE DATABASE TO SEE IF IT EXISTS. IF SO, IT SEES IF ALL THE MODEL FIELDS HAVE BEEN FILLED
+AND PASSES THOSE TO THE CONTEXT DICTIONARY WHICH WILL BE PASSED TO CLASSIFIEDS/SPECIFIC.HTML
+"""
 def specific(request, specific_id):
 	object_database = Classifieds.objects.get(pk=specific_id)
 	if object_database:
 		spec_user = object_database.user.email
 		spec_title = object_database.title
 		spec_description = object_database.description
-		spec_photo = object_database.photos
-		context = {'spec_photo': spec_photo, 'spec_title': spec_title, 'spec_description': spec_description, 'spec_user': spec_user}
+		context = {'spec_title': spec_title, 'spec_description': spec_description,
+					 'spec_user': spec_user}
+		if object_database.photos:
+			context['spec_photo'] = object_database.photos
+		if object_database.photo2:
+			context['spec_photo2'] = object_database.photo2
+		if object_database.photo3:
+			context['spec_photo3'] = object_database.photo3
+		if object_database.photo4:
+			context['spec_photo4'] = object_database.photo4
 		return render(request, 'classifieds/specific.html', context)
 		
 	else:
@@ -67,22 +86,55 @@ def post(request):
     # Handle file upload
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
+        pub_date = timezone.now()
         if form.is_valid():
-            new_classified = Classifieds(photos = request.FILES['docfile'], title = request.POST['title'], category = request.POST.get('category'), 
-            				description = request.POST['description'], user = Users.objects.get(pk = request.session['id']), school = Schools.objects.get(pk=1))
-            new_classified.save()
+        	data_dict = {'pub_date' : pub_date, 'title' : request.POST['title'], 
+        	'category' : request.POST['category'], 'description' : request.POST['description'],
+        	'user' : Users.objects.get(pk = request.session['id']), 
+        	'school' : Schools.objects.get(pk=1)}
 
-            # Redirect to the document list after POST
-            return HttpResponseRedirect('/classifieds')
+        	"""
+        	BELOW CHECKS TO SEE IF THE FILES HAVE ACTUALLY BEEN UPLOADED...IF SO, IT ADDS THEM TO THE data_dict
+        	FOR SOME REASON YOU HAVE TO USE REQUEST.FILES.GET('FILENAME', NONE) OR ELSE IT WON'T FIND THE KEY.
+        	"""
+
+        	if request.FILES.get('imagefile', None) != None:
+        		data_dict['photos'] = request.FILES.get('imagefile', None)
+        	if request.FILES.get('imagefile2', None) != None:
+        		data_dict['photo2'] = request.FILES.get('imagefile2', None)
+        	if request.FILES.get('imagefile3', None) != None:
+        		data_dict['photo3'] = request.FILES.get('imagefile3', None)
+        	if request.FILES.get('imagefile4', None) != None:
+        		data_dict['photo4'] = request.FILES.get('imagefile4', None)
+
+        	new_classified = Classifieds(**data_dict)
+        	new_classified.save()
+        	return HttpResponseRedirect('/classifieds')
+            
     else:
         form = DocumentForm() # A empty, unbound form
 
 
 
 
-    # Render list page with the documents and the form
+    # Render post page with the documents and the form
     return render_to_response(
-        'classifieds/list.html',
+        'classifieds/post.html',
         {'form': form, 'total_vars': total_vars},
         context_instance=RequestContext(request)
 )
+#HANDLES THE SEARCH FUNCTION.....GETS THE SEARCH DATA FROM LISTINGS.HTML
+def search(request):
+
+	if request.method == "POST":
+		search_text = request.POST['search']
+
+	#ICONTAINS IS CASE INSENSITIVE 
+
+		search_results = Classifieds.objects.filter(title__icontains = search_text)
+	else:
+		search_results = []
+
+
+
+	return render(request, 'classifieds/search_results.html', {'search_results': search_results})
