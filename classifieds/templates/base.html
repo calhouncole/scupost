@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}style.css">
+<html lang="en">
+<head>
+    <title> {% block title %}SCUpost{% endblock %}</title>
+    <center><h5>{% block heading %}SCUpost{% endblock %}</h5></center>
+</head>
+
+<body>
+{% block classifieds_post_search %}
+{% endblock %}
+
+    <div id="container">
+        {% block extra_divs %}
+
+        {% endblock %}
+    </div>
+
+</body>
+</html>

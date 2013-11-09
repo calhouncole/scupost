@@ -1,5 +1,35 @@
-h2
+h2#Search
 {
-	color: blue;
-	position: center;
+	text-align: right;
+}
+h5
+{
+	font-size: 50px;
+}
+button
+{
+	float: right;
+}
+div#container
+{
+	width: 80%;
+	margin: 5px auto;
+	
+	/*background-color: blue;*/
+}
+div#container div
+{
+
+	width:33.3%;
+	margin: 0px auto;
+	float: left;
+	text-indent: 31%;
+
+
+}
+
+
+form
+{
+	float: right;
 }

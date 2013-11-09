@@ -1,71 +1,72 @@
-{% load static %}
+{% extends "base.html" %}
 
-   
-    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}style.css">
+{% block classifieds_post_search %}
 
-<html>
-<button type="button"><a href="/classifieds/post">Post Something</a></button>
- <title> SCUpost</title>
+	<button type="button"><a href="/classifieds/post">Post Something</a></button><br>
+	<h2 id ="Search"> Search </h2>
 
-<h5> SCUpost</h5>
-<!-- The Below Creates a Search Bar....the action tab sends it to classifieds/search/ where it is handled by the view "search" -->
-<h2> Search </h2>
+	<form method = "post" action = "/classifieds/search/">
+		{% csrf_token %}
+		<input type="text" id = "search" name = "search" />
+		<input type = "submit" value = "Search"/>
+	</form>
 
-<form method = "post" action = "/classifieds/search/">
-	{% csrf_token %}
-	<input type="text" id = "search" name = "search" />
-	<input type = "submit" value = "search"/>
-</form>
-
-<ul id = "search-results"></ul>
+{% endblock %}
 
 
-<body>
-<title>Classifieds</title>
+{% block extra_divs %}
+
+<br>
+<br>
+	<div id = "hello">
+	{% if For_Sale %}
+	<h2>For Sale</h2>
+	{% for each in For_Sale %}
+	<li><a href="/classifieds/{{ each }}/">{{ each }}</a></li>
+	{% endfor %}
+	{% endif %}
+
+	{% if personals %}
+	<h2>Personals</h2>
+	{% for each in personals %}
+	<li><a href="/classifieds/{{ each }}/">{{ each }}</a></li>
+	{% endfor %}
+	{% endif %}
+	</div>
 
 
-<br>{{id}}
+	<div id = "hi">
+	{% if community %}
+	<h2>Community</h2>
+	{% for each in community %}
+	<li><a href="/classifieds/{{ each }}/">{{ each }}</a></li>
+	{% endfor %}
+	{% endif %}
 
-{% if For_Sale %}
-<h2>For Sale</h2>
-{% for each in For_Sale %}
-<li><a href="/classifieds/{{ each }}/">{{ each }}</a></li>
-{% endfor %}
-{% endif %}
+	{% if housing %}
+	<h2>Housing</h2>
+	{% for each in housing %}
+	<li><a href="/classifieds/{{ each }}/">{{ each }}</a></li>
+	{% endfor %}
+	{% endif %}
+	</div>
 
-{% if personals %}
-<h2>Personals</h2>
-{% for each in personals %}
-<li><a href="/classifieds/{{ each }}/">{{ each }}</a></li>
-{% endfor %}
-{% endif %}
 
-{% if community %}
-<h2>Community</h2>
-{% for each in community %}
-<li><a href="/classifieds/{{ each }}/">{{ each }}</a></li>
-{% endfor %}
-{% endif %}
+	<div id = "hola">
+	{% if on_campus_jobs %}
+	<h2>On Campus Jobs</h2>
+	{% for each in on_campus_jobs %}
+	<li><a href="/classifieds/{{ each }}/">{{ each }}</a></li>
+	{% endfor %}
+	{% endif %}
 
-{% if housing %}
-<h2>Housing</h2>
-{% for each in housing %}
-<li><a href="/classifieds/{{ each }}/">{{ each }}</a></li>
-{% endfor %}
-{% endif %}
+	{% if Wanted %}
+	<h2>Wanted</h2>
+	{% for each in Wanted %}
+	<li><a href="/classifieds/{{ each }}/">{{ each }}</a></li>
+	{% endfor %}
+	{% endif %}
+	</div>
 
-{% if on_campus_jobs %}
-<h2>On Campus Jobs</h2>
-{% for each in on_campus_jobs %}
-<li><a href="/classifieds/{{ each }}/">{{ each }}</a></li>
-{% endfor %}
-{% endif %}
+{% endblock %}
 
-{% if Wanted %}
-<h2>Wanted</h2>
-{% for each in Wanted %}
-<li><a href="/classifieds/{{ each }}/">{{ each }}</a></li>
-{% endfor %}
-{% endif %}
-</body>
-</html>
