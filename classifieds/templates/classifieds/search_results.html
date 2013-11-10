@@ -1,14 +1,18 @@
-<html>
+{% extends "base.html" %}
 
-{% if search_results.count > 0 %}
+{% block heading %} Search {% endblock %}
 
-{% for each in search_results %}
-<a href="/classifieds/{{ each.id }}/">{{ each.title }}</a><br>
-{% endfor %}
+{% block other_info %}
+	{% if search_results.count > 0 %}
 
-{% else %}
+	{% for each in search_results %}
+	<a href="/classifieds/{{ each.id }}/">{{ each.title }}</a><br>
+	{% endfor %}
 
-<li>None to show!</li>
+	{% else %}
 
-{% endif %}
-</html>
+	<li>None to show!</li>
+
+	{% endif %}
+
+{% endblock %}

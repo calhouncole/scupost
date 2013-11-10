@@ -12,24 +12,23 @@
 	</form>
 
 {% endblock %}
-
-
 {% block extra_divs %}
 
 <br>
 <br>
+
 	<div id = "hello">
 	{% if For_Sale %}
 	<h2>For Sale</h2>
 	{% for each in For_Sale %}
-	<li><a href="/classifieds/{{ each }}/">{{ each }}</a></li>
+	<ul><a href="/classifieds/{{ each }}/">{{ each }}</a></ul>
 	{% endfor %}
 	{% endif %}
 
 	{% if personals %}
 	<h2>Personals</h2>
 	{% for each in personals %}
-	<li><a href="/classifieds/{{ each }}/">{{ each }}</a></li>
+	<ul><a href="/classifieds/{{ each }}/">{{ each }}</a></ul>
 	{% endfor %}
 	{% endif %}
 	</div>
@@ -39,14 +38,14 @@
 	{% if community %}
 	<h2>Community</h2>
 	{% for each in community %}
-	<li><a href="/classifieds/{{ each }}/">{{ each }}</a></li>
+	<ul><a href="/classifieds/{{ each }}/">{{ each }}</a></ul>
 	{% endfor %}
 	{% endif %}
 
 	{% if housing %}
 	<h2>Housing</h2>
 	{% for each in housing %}
-	<li><a href="/classifieds/{{ each }}/">{{ each }}</a></li>
+	<ul><a href="/classifieds/{{ each }}/">{{ each }}</a></ul>
 	{% endfor %}
 	{% endif %}
 	</div>
@@ -56,14 +55,14 @@
 	{% if on_campus_jobs %}
 	<h2>On Campus Jobs</h2>
 	{% for each in on_campus_jobs %}
-	<li><a href="/classifieds/{{ each }}/">{{ each }}</a></li>
+	<ul><a href="/classifieds/{{ each }}/">{{ each }}</a></ul>
 	{% endfor %}
 	{% endif %}
 
 	{% if Wanted %}
 	<h2>Wanted</h2>
 	{% for each in Wanted %}
-	<li><a href="/classifieds/{{ each }}/">{{ each }}</a></li>
+	<ul><a href="/classifieds/{{ each }}/">{{ each }}</a></ul>
 	{% endfor %}
 	{% endif %}
 	</div>

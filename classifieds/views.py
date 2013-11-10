@@ -54,7 +54,7 @@ def detail(request, types):
 		output.reverse()
 
 
-	context = {'output': output}
+	context = {'output': output, 'types': types}
 	return render(request, 'classifieds/detail.html', context)
 """
 THE FOLLOWING IS CALLED WHEN A SPECIFIC CLASSIFIED IS CLICKED

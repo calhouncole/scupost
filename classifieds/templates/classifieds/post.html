@@ -1,26 +1,23 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<title>SCUpost</title>	
-	</head>
+{% extends "base.html" %}
 
-	<body>
+{% block heading %} Post {% endblock %}
 
+{% block other_info %}
 
 		<!-- Upload form. Note enctype attribute! -->
-		<form method="post" enctype="multipart/form-data">
+		<form id = "postid" method="post" enctype="multipart/form-data">
 			{% csrf_token %}
-			Title: {{form.title}}<br>
-			Price: {{form.price}}<br>
+			Title: {{form.title}}<br><br>
+			Price: {{form.price}}<br><br>
 			{% if total_vars %}
        Category:<select name="category">
               {% for each in total_vars %}
               <option value = {{each}}>{{each}}</option>
               {% endfor %}
-        </select><br>
+        </select><br><br>
             {% endif %}
-			Description: {{form.description}}<br>
+			Description: <br>
+			{{form.description}}<br>
 			<p>{{ form.non_field_errors }}</p>
 			<p>{{ form.imagefile.label_tag }} {{ form.imagefile.help_text }}</p>
 			<p>
@@ -47,7 +44,5 @@
 			</p>
 			<p><input type="submit" value="Upload" /></p>
 		</form>
-		
-	</body>
 
-</html> 
+{% endblock %}

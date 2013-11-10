@@ -1,17 +1,23 @@
-<html>
-<li>{{spec_title}}</li>
-<li>{{spec_description}}</li>
-<li>{{spec_user}}</li>
-{% if spec_photo %}
-<img src="{{spec_photo.url}}">
-{% endif %}
-{% if spec_photo2 %}
-<img src="{{spec_photo2.url}}">
-{% endif %}
-{% if spec_photo3 %}
-<img src="{{spec_photo3.url}}">
-{% endif %}
-{% if spec_photo4 %}
-<img src="{{spec_photo4.url}}">
-{% endif %}
-</html>
+{% extends "base.html" %}
+
+{% block heading %} {{spec_title}} {% endblock %}
+ 
+{% block other_info %}
+
+
+	<ul>{{spec_description}}</ul>
+	<ul>{{spec_user}}</ul>
+	{% if spec_photo %}
+	<img src="{{spec_photo.url}}">
+	{% endif %}
+	{% if spec_photo2 %}
+	<img src="{{spec_photo2.url}}">
+	{% endif %}
+	{% if spec_photo3 %}
+	<img src="{{spec_photo3.url}}">
+	{% endif %}
+	{% if spec_photo4 %}
+	<img src="{{spec_photo4.url}}">
+	{% endif %}
+
+{% endblock %}
