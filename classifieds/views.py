@@ -110,7 +110,11 @@ def post(request):
         	"""
 
         	if request.POST.get('price', None) != None:
-        		data_dict['price'] = request.POST.get('price', None)
+        		price = request.POST.get('price', None)
+        		if "$" not in price:
+        			price = "$" + price
+
+        		data_dict['price'] = price
         	if request.FILES.get('imagefile', None) != None:
         		data_dict['photos'] = request.FILES.get('imagefile', None)
         	if request.FILES.get('imagefile2', None) != None:
@@ -122,8 +126,9 @@ def post(request):
 
         	new_classified = Classifieds(**data_dict)
         	new_classified.save()
+        	
 
-        	return HttpResponseRedirect('/classifieds')
+        	return render(request, 'classifieds/success.html', {'new_classified': new_classified})
             
     else:
         form = DocumentForm() # A empty, unbound form
@@ -137,6 +142,7 @@ def post(request):
         {'form': form, 'total_vars': total_vars},
         context_instance=RequestContext(request)
 )
+
 #HANDLES THE SEARCH FUNCTION.....GETS THE SEARCH DATA FROM LISTINGS.HTML
 def search(request):
 

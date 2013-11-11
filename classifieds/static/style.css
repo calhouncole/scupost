@@ -133,3 +133,9 @@ li
 {
 	font-size: 25px;
 }
+#success_post
+{
+	float: left;
+	width: 50%;
+	margin-bottom: 80px;
+}

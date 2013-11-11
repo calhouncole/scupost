@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block heading %} {{new_classified.title}} {% endblock %}
+
+{% block other_info%}
+
+	<div id = "success_post" class="alert alert-success">
+        <strong>Awesome!</strong> Your ad posting was succesful. View it here <a href = "/classifieds/{{ new_classified.id }}/">{{new_classified.title}}</a>!.
+      
+</div>
+{% endblock %}
