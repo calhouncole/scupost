@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import forms
+from django.core.files.images import get_image_dimensions
 
 
 
@@ -37,4 +38,16 @@ class DocumentForm(forms.Form):
 	    required = False
 	    
 	)
+	def check_picture(self):
+		if imagefile:
+			picture = self.cleaned_data.get('imagefile')
+			w, h = get_image_dimensions(picture)
+			if w > 600:
+				raise forms.ValidationError("The image is too large. Make sure it is no bigger than 600X600")
+			if h > 600:
+				raise forms.ValidationError("The image is too large. Make sure it is no bigger than 600X600")
+			return picture
+		else:
+			return None
+
 

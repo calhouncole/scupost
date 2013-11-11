@@ -109,11 +109,10 @@ def post(request):
         	FOR SOME REASON YOU HAVE TO USE REQUEST.FILES.GET('FILENAME', NONE) OR ELSE IT WON'T FIND THE KEY.
         	"""
 
-        	if request.POST.get('price', None) != None:
-        		price = request.POST.get('price', None)
+        	if request.POST['price']:
+        		price = request.POST['price']
         		if "$" not in price:
         			price = "$" + price
-
         		data_dict['price'] = price
         	if request.FILES.get('imagefile', None) != None:
         		data_dict['photos'] = request.FILES.get('imagefile', None)

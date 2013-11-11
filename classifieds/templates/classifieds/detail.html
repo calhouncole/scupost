@@ -6,7 +6,7 @@
 <div id = "detail">
 	{% if output %}
 	{% for each in output %}
-	<ul><a href="/classifieds/{{ each.id }}/">{{ each }}</a></ul>
+	<ul><a href="/classifieds/{{ each.id }}/">{{ each }}</a> {% if each.price %} -- {{each.price}} {% endif %}</ul>
 	{% endfor %}
 </div>
 {% else %}
