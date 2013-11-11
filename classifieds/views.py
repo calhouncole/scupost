@@ -38,20 +38,25 @@ total_vars = sorted(total_vars)
 
 #THE FUNCTION: LISTINGS, RENDERS THE LISTINGS TEMPLATE, PASSISNG IN THE CATEGORIES AS VARIABLES
 def listings(request):
-	usr_id = request.session['id']
-	context = {'Wanted': Wanted, 'For_Sale' : For_Sale, 'personals' : personals, 'housing' : housing, 
-				'on_campus_jobs' : on_campus_jobs, 'community' : community, 'id' : usr_id}
+	recent_posts_temp = Classifieds.objects.order_by('-pub_date')[:10]
+	recent_posts = []
+
+	for each in recent_posts_temp:
+		recent_posts.append(each)
+
+	context = {'recent_posts': recent_posts, 'Wanted': Wanted, 'For_Sale' : For_Sale, 'personals' : personals, 'housing' : housing, 
+				'on_campus_jobs' : on_campus_jobs, 'community' : community}
 	return render(request, 'classifieds/listings.html', context)
 
 #THIS FUNCTION TAKES THE CATEGORY VARIABLE AND RENDERS ALL OF THOSE IN THE DATABSE ASSOCIATED WITH THAT CATEGORY	
 
 def detail(request, types):
-	latest_list = Classifieds.objects.filter(category = types)
+	latest_list = Classifieds.objects.filter(category = types).order_by('-pub_date')
 	output = []
 
 	for each_listing in latest_list:
 		output.append(each_listing)
-		output.reverse()
+		
 
 
 	context = {'output': output, 'types': types}

@@ -1,21 +1,47 @@
 {% load static %}
 <!DOCTYPE html>
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}bootstrap.css">
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}bootstrap-theme.min.css">
 <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}style.css">
 <html lang="en">
 <head>
     <title> {% block title %}SCUpost{% endblock %}</title>
-    <center><h5>{% block heading %}SCUpost<!-- <a id = "heading_url" href = "/classifieds/">SCUpost</a> -->{% endblock %}</h5></center>
+
+  	<div class="navbar navbar-inverse navbar-relative-top" role="navigation">
+	    <center><div class="navbar-header"></center>
+	       <a id = "navbar_heading" href="/classifieds/"><h5>SCUpost</h5></a>
+	    </div>
+	</div>
+
 </head>
 
 <body>
-	{% block other_info %}
-	{% endblock %}
+
 
 
 	<div id ="post_search">
 		{% block classifieds_post_search %}
+
+				<a href="/classifieds/post/"><button class=" btn btn-lg btn-primary">Post</button></a>
+			<h2 id ="Search"> Search </h2>
+
+			<form method = "post" action = "/classifieds/search/">
+				{% csrf_token %}
+				<input type="text" id = "search" name = "search" />
+				<!-- <input type = "submit" value = "Search"/> -->
+				<button type="submit" class="btn btn-default">Search</button>
+			</form>
+
 		{% endblock %}
 	</div>
+	<div id = "heading">
+		<h2>
+	{%block heading %}
+	{% endblock %}
+		</h2>
+	</div>
+	{% block other_info %}
+	{% endblock %}
 
     <div id="container">
         {% block extra_divs %}
@@ -28,12 +54,15 @@
 
 <div id = "footer">
 
-	<div id = "left_footer">
-		Created by Cole Calhoun
+		<div id = "left_footer">
+			Created by Cole Calhoun
+		</div>
 	</div>
-	<div id = "right_footer">
-		Feedback? Contact <a href="mailto:ccalhoun@scu.edu">ccalhoun@scu.edu</a>
-	</div>
+
+		<div id = "right_footer">
+			Feedback? Contact <a href="mailto:ccalhoun@scu.edu">ccalhoun@scu.edu</a>
+		</div>
+
 
 </div>
 

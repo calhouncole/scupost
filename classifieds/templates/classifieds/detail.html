@@ -3,6 +3,7 @@
 {% block heading %} {{types}} {% endblock %}
 
 {% block other_info%}
+<div id = "detail">
 	{% if output %}
 	{% for each in output %}
 	<ul><a href="/classifieds/{{ each.id }}/">{{ each }}</a></ul>
@@ -10,4 +11,5 @@
 	{% else %}
 	Oops! There are no listings for this category at this time. Please check again later!
 	{% endif %}
+</div>
 {% endblock %}
