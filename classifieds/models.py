@@ -8,6 +8,7 @@ class Classifieds(models.Model):
 	category = models.CharField(max_length = 200)
 	user = models.ForeignKey(Users)
 	school = models.ForeignKey(Schools)
+	price = models.CharField(max_length = 200, null = True, blank = True)
 	title = models.CharField(max_length = 200)
 	pub_date = models.DateTimeField('date published')
 	photos = models.ImageField(upload_to = 'documents/%Y/%m/%d', null = True, blank = True)

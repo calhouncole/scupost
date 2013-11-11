@@ -1,12 +1,10 @@
 {% extends "base.html" %}
 
-{% block heading %} {{spec_title}} {% endblock %}
+{% block heading %} {{spec_title}} {% if spec_price %} -- {{spec_price}} {% endif %} {% endblock %}
  
 {% block other_info %}
 
-
-	<ul>{{spec_description}}</ul>
-	<ul><a href = "mailto:{{spec_user}}"> {{spec_user}} </a></ul>
+<div id = "specific">
 	{% if spec_photo %}
 	<img src="{{spec_photo.url}}">
 	{% endif %}
@@ -19,5 +17,10 @@
 	{% if spec_photo4 %}
 	<img src="{{spec_photo4.url}}">
 	{% endif %}
-
+	<!-- div class = "well"> -->
+	<li id = "specific_description">{{spec_description}}</li>
+	<!-- </div> -->
+	<li><a href = "mailto:{{spec_user}}"> {{spec_user}} </a></li>
+	
+</div>
 {% endblock %}

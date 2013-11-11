@@ -3,16 +3,20 @@
 {% block heading %} Search {% endblock %}
 
 {% block other_info %}
-	{% if search_results.count > 0 %}
+	<div id = "search_results">
+		{% if search_results.count > 0 %}
 
-	{% for each in search_results %}
-	<a href="/classifieds/{{ each.id }}/">{{ each.title }}</a><br>
-	{% endfor %}
+		{% for each in search_results %}
+		<ul><a href="/classifieds/{{ each.id }}/">{{ each.title }}</a></ul>
+		{% endfor %}
+	</div>
+		{% else %}
 
-	{% else %}
+		<div id = "search_results_empty" class="alert alert-danger">
+	        <strong>Oops!</strong> There aren't any posts that match your search.
+	      
 
-	<li>None to show!</li>
-
-	{% endif %}
+		{% endif %}
+	</div>
 
 {% endblock %}

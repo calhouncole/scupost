@@ -8,8 +8,11 @@
 	{% for each in output %}
 	<ul><a href="/classifieds/{{ each.id }}/">{{ each }}</a></ul>
 	{% endfor %}
-	{% else %}
-	Oops! There are no listings for this category at this time. Please check again later!
+</div>
+{% else %}
+	<div id = "no_posts" class="alert alert-danger">
+        <strong>Oops!</strong> There aren't any posts in "{{types}}" yet.
+      
 	{% endif %}
 </div>
 {% endblock %}

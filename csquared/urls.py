@@ -7,7 +7,7 @@ from django.conf.urls.static import static
 # admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^$', include('schools.urls', namespace="schools")),
+    url(r'^$', include('schools.urls', namespace="school")),
     url(r'^classifieds/', include('classifieds.urls', namespace="classifieds")),
 
 

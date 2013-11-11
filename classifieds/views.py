@@ -27,7 +27,7 @@ housing = ["Apts/Housing", "Roommates", "Rooms/Shared", "Sublets/Temporary"]
 on_campus_jobs = ["Admin", "General", "Research", "Tutoring"] 
 community = ["Activities", "Classes", "General", "Lost+Found", "Parties", "Rideshare", "Volunteers"]
 Wanted = ["Wanted"]
-total_vars = ["", "Barter", "Bikes", "Computer", "Electronics", "Free", "Furniture", "Games", "Household", "Media", "Music", 
+total_vars = ["Barter", "Bikes", "Computer", "Electronics", "Free", "Furniture", "Games", "Household", "Media", "Music", 
 				"Sporting", 
 				"Textbooks", "Tickets", "Tools", "Wanted", 'Friendship', 'Romance', "Apts/Housing", "Roommates", 
 				"Rooms/Shared", "Sublets/Temporary",
@@ -36,17 +36,21 @@ total_vars = ["", "Barter", "Bikes", "Computer", "Electronics", "Free", "Furnitu
 total_vars = sorted(total_vars)
 
 
-#THE FUNCTION: LISTINGS, RENDERS THE LISTINGS TEMPLATE, PASSISNG IN THE CATEGORIES AS VARIABLES
-def listings(request):
-	recent_posts_temp = Classifieds.objects.order_by('-pub_date')[:10]
-	recent_posts = []
 
+# THE FUNCTION: LISTINGS, QUERIES THE DB FOR 10 RECENT POSTS, RENDERS THE LISTINGS TEMPLATE, PASSISNG IN THE CATEGORIES 
+# AND RECENT POSTS AS VARIABLES
+def listings(request):
+	recent_posts = []
+	recent_posts_temp = Classifieds.objects.order_by('-pub_date')[:10]
 	for each in recent_posts_temp:
 		recent_posts.append(each)
 
 	context = {'recent_posts': recent_posts, 'Wanted': Wanted, 'For_Sale' : For_Sale, 'personals' : personals, 'housing' : housing, 
 				'on_campus_jobs' : on_campus_jobs, 'community' : community}
+	
 	return render(request, 'classifieds/listings.html', context)
+
+
 
 #THIS FUNCTION TAKES THE CATEGORY VARIABLE AND RENDERS ALL OF THOSE IN THE DATABSE ASSOCIATED WITH THAT CATEGORY	
 
@@ -74,6 +78,8 @@ def specific(request, specific_id):
 		spec_description = object_database.description
 		context = {'spec_title': spec_title, 'spec_description': spec_description,
 					 'spec_user': spec_user}
+		if object_database.price:
+			context['spec_price'] = object_database.price
 		if object_database.photos:
 			context['spec_photo'] = object_database.photos
 		if object_database.photo2:
@@ -103,6 +109,8 @@ def post(request):
         	FOR SOME REASON YOU HAVE TO USE REQUEST.FILES.GET('FILENAME', NONE) OR ELSE IT WON'T FIND THE KEY.
         	"""
 
+        	if request.POST.get('price', None) != None:
+        		data_dict['price'] = request.POST.get('price', None)
         	if request.FILES.get('imagefile', None) != None:
         		data_dict['photos'] = request.FILES.get('imagefile', None)
         	if request.FILES.get('imagefile2', None) != None:
@@ -114,6 +122,7 @@ def post(request):
 
         	new_classified = Classifieds(**data_dict)
         	new_classified.save()
+
         	return HttpResponseRedirect('/classifieds')
             
     else:
@@ -133,11 +142,12 @@ def search(request):
 
 	if request.method == "POST":
 		search_text = request.POST['search']
-
-	#ICONTAINS IS CASE INSENSITIVE 
-
-		search_results = Classifieds.objects.filter(title__icontains = search_text)
-	else:
+		if search_text:
+			#ICONTAINS IS CASE INSENSITIVE 
+			search_results = Classifieds.objects.filter(title__icontains = search_text)
+		else:
+			search_results = Classifieds.objects.filter(title__icontains = [])
+	else: 
 		search_results = []
 
 

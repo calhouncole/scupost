@@ -4,6 +4,11 @@ h5
 	font-size: 50px;
 
 }
+h4
+{
+	font-size: 25px;
+}
+
 /*a#heading_url:link
 {
 	text-decoration: none;
@@ -15,6 +20,21 @@ a#heading_url:visited
 	text-decoration: none;
 
 }*/
+#left_post_div
+{
+	float: left;
+	margin-right: 30px;
+}
+#right_post_div
+{
+	float: left;
+	margin-left: 30px;
+}
+#post_something
+{
+	font-size: 35px;
+	text-align: center;
+}
 #post_search
 {
 	float: left;
@@ -23,9 +43,10 @@ a#heading_url:visited
 	margin: 5px auto;
 	text-indent: 2%;
 }
-#postid
+#post_div
 {
-	text-align: center;
+	width: 69%;
+	float: right;
 }
 #container
 {
@@ -37,21 +58,23 @@ a#heading_url:visited
 #footer
 {
 	min-height: 100%;
-
+	width: 100%;
 }
 
 #left_footer
 {
 	width: 50%;
 	float: left;
-	text-align: left;
+	text-indent: 7.5%;
+
 }
 
 #right_footer
 {
 	width: 50%;
 	float: left;
-	text-align: right;
+	text-indent: 26%;
+
 }
 li
 {
@@ -63,17 +86,50 @@ li
 }
 #navbar_heading
 {
-  text-align: center;
-  list-style-type: none;
-  color: white;
+	text-align: center;
+	list-style-type: none;
+	color: white;
+	text-decoration: none;
 
 }
+#search_results
+{
+	width: 78%;
+	margin-bottom: 80px;
+	float: left;
+}
+#search_results_empty
+{
+	float: left;
+	margin-bottom: 80px;
+
+}
+
 #detail
 {
-  float: left;
-}
-#heading
-{
-  float: left;
+	width: 78%;
+	margin-bottom: 80px;
+	float: left;
 }
 
+#heading
+{
+	float: left;
+	width: 78%;
+}
+#no_posts
+{
+	float: left;
+	margin-bottom: 80px;
+}
+#specific
+{
+	float: left;
+	width: 78%;
+	margin-bottom: 80px;
+}
+
+#specific_price
+{
+	font-size: 25px;
+}

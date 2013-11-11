@@ -1,50 +1,56 @@
 {% extends "base.html" %}
 
-{% block heading %} Post {% endblock %}
+
 
 {% block classifieds_post_search %}{% endblock %}
 
 {% block other_info %}
-
+	<h5 id ="post_something"> Enter Ad Details </h5>
 		<!-- Upload form. Note enctype attribute! -->
-		<form id = "postid" method="post" enctype="multipart/form-data">
-			{% csrf_token %}
-			Title: {{form.title}}<br><br>
-			Price: {{form.price}}<br><br>
-			{% if total_vars %}
-       Category:<select name="category">
-              {% for each in total_vars %}
-              <option value = {{each}}>{{each}}</option>
-              {% endfor %}
-        </select><br><br>
-            {% endif %}
-			Description: <br>
-			{{form.description}}<br>
-			<p>{{ form.non_field_errors }}</p>
-			<p>{{ form.imagefile.label_tag }} {{ form.imagefile.help_text }}</p>
-			<p>
-				{{ form.imagefile.errors }}
-				{{ form.imagefile }}
-			</p>
-			<p>{{ form.non_field_errors }}</p>
-			<p>{{ form.imagefile2.label_tag }} {{ form.imagefile2.help_text }}</p>
-			<p>
-				{{ form.imagefile2.errors }}
-				{{ form.imagefile2 }}
-			</p>
-			<p>{{ form.non_field_errors }}</p>
-			<p>{{ form.imagefile3.label_tag }} {{ form.imagefile3.help_text }}</p>
-			<p>
-				{{ form.imagefile3.errors }}
-				{{ form.imagefile3 }}
-			</p>
-			<p>{{ form.non_field_errors }}</p>
-			<p>{{ form.imagefile4.label_tag }} {{ form.imagefile4.help_text }}</p>
-			<p>
-				{{ form.imagefile4.errors }}
-				{{ form.imagefile4 }}
-			</p>
-			<p><input type="submit" value="Upload" /></p>
-		</form>
-
+	<div id = "post_div">
+		<div id = "left_post_div">
+			<form id = "postid" method="post" enctype="multipart/form-data">
+				
+				{% csrf_token %}
+				Title: <br>{{form.title}}<br><br>
+				Price: (optional)<br>{{form.price}}<br><br>
+				{% if total_vars %}
+	       Category: <br><select name="category">
+	              {% for each in total_vars %}
+	              <option value = {{each}}>{{each}}</option>
+	              {% endfor %}
+	        </select><br><br>
+	            {% endif %}
+        </div>
+        <div id = "right_post_div">
+				Description: <br>
+				{{form.description}}<br>
+				<p>{{ form.non_field_errors }}</p>
+				<p>{{ form.imagefile.label_tag }} {{ form.imagefile.help_text }}</p>
+				<p id = "pic1">
+					{{ form.imagefile.errors }}
+					{{ form.imagefile }}
+				</p>
+				<p>{{ form.non_field_errors }}</p>
+				<p>{{ form.imagefile2.label_tag }} {{ form.imagefile2.help_text }}</p>
+				<p>
+					{{ form.imagefile2.errors }}
+					{{ form.imagefile2 }}
+				</p>
+				<p>{{ form.non_field_errors }}</p>
+				<p>{{ form.imagefile3.label_tag }} {{ form.imagefile3.help_text }}</p>
+				<p>
+					{{ form.imagefile3.errors }}
+					{{ form.imagefile3 }}
+				</p>
+				<p>{{ form.non_field_errors }}</p>
+				<p>{{ form.imagefile4.label_tag }} {{ form.imagefile4.help_text }}</p>
+				<p>
+					{{ form.imagefile4.errors }}
+					{{ form.imagefile4 }}
+				</p>
+				<p><button type="submit" class="btn btn-warning">Upload</button></p>
+			</form>
+		</div>
+	</div>
 {% endblock %}
